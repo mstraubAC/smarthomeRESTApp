@@ -1,0 +1,2 @@
+REST_LISTENER=:7777
+DB_URL=postgres://DB_USER:DB_PASS@DB_HOST:5432/smarthome
