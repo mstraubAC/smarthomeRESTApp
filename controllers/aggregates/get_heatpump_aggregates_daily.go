@@ -27,10 +27,9 @@ func (h *handler) getHeatpumpAggregatesDaily(c *gin.Context) {
 		c.AbortWithError(http.StatusBadRequest, &middleware.TFError{Type: middleware.ErrorRequestParameterInvalid, Detail: fmt.Sprintf("%v", err)})
 		return
 	}
-	println(params.StartDate.String())
 
 	// get sql accessor
-	sqlConn, err := h.GetSqlConnection()
+	sqlConn, err := h.Db.GetSqlConnection()
 	if err != nil {
 		// TODO: Unify logging format to include tracing Ids
 		h.Logger.Error(fmt.Sprintf("Failed to fetch a database connection: %v", err))

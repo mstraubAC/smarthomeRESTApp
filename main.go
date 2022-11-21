@@ -1,6 +1,7 @@
 package main
 
 import (
+	"mstraubAC/smarthome-restService/accessors"
 	"mstraubAC/smarthome-restService/configuration"
 	"mstraubAC/smarthome-restService/controllers/aggregates"
 	"mstraubAC/smarthome-restService/controllers/locations"
@@ -22,7 +23,8 @@ func main() {
 		return
 	}
 
-	println("Port to listen on:" + config.RestListener)
+	// setup database
+	databaseAccessor := accessors.DatabaseAccessor{Config: &config, Logger: logger}
 
 	// setup routing middleware
 	router := gin.Default()
@@ -36,7 +38,7 @@ func main() {
 
 	// v1 API
 	locations.RegisterRoutes(router.Group("/v1"), &config, logger)
-	aggregates.RegisterRoutes(router.Group("/v1"), &config, logger)
+	aggregates.RegisterRoutes(router.Group("/v1"), &config, logger, &databaseAccessor)
 
 	// startup router
 	router.Run(config.RestListener)
