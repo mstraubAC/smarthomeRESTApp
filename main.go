@@ -2,6 +2,7 @@ package main
 
 import (
 	"mstraubAC/smarthome-restService/configuration"
+	"mstraubAC/smarthome-restService/controllers/aggregates"
 	"mstraubAC/smarthome-restService/controllers/locations"
 	"mstraubAC/smarthome-restService/middleware"
 
@@ -35,6 +36,7 @@ func main() {
 
 	// v1 API
 	locations.RegisterRoutes(router.Group("/v1"), &config, logger)
+	aggregates.RegisterRoutes(router.Group("/v1"), &config, logger)
 
 	// startup router
 	router.Run(config.RestListener)
