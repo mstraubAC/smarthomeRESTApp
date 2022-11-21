@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "configuration",
+    srcs = ["configuration.go"],
+    importpath = "mstraubAC/smarthome-restService/restService/configuration",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_spf13_viper//:go_default_library",
+        "@org_uber_go_zap//:go_default_library",
+    ],
+)

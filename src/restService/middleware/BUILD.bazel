@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "middleware",
+    srcs = [
+        "errorhandler.go",
+        "ginlogging.go",
+    ],
+    importpath = "mstraubAC/smarthome-restService/restService/middleware",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_gin_contrib_zap//:go_default_library",
+        "@com_github_gin_gonic_gin//:go_default_library",
+        "@com_github_goccy_go_json//:go_default_library",
+        "@io_opentelemetry_go_otel_trace//:go_default_library",
+        "@org_uber_go_zap//:go_default_library",
+        "@org_uber_go_zap//zapcore:go_default_library",
+        "@vip_schneider_problem//:go_default_library",
+    ],
+)

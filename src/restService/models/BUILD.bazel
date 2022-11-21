@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "models",
+    srcs = [
+        "device.go",
+        "devicetype.go",
+        "heatpumpPowerAggregates.go",
+        "location.go",
+    ],
+    importpath = "mstraubAC/smarthome-restService/restService/models",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_jackc_pgx_v5//pgtype/zeronull:go_default_library"],
+)
