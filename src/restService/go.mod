@@ -1,4 +1,4 @@
-module github.com/mstraubAC/smarhomeRESTApp/src/restService
+module github.com/mstraubAC/smarthomeRESTApp/src/restService
 
 go 1.19
 

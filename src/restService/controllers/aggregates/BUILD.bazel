@@ -6,7 +6,7 @@ go_library(
         "controllers.go",
         "get_heatpump_aggregates_daily.go",
     ],
-    importpath = "mstraubAC/smarthome-restService/restService/controllers/aggregates",
+    importpath = "github.com/mstraubAC/smarthomeRESTApp/restService/controllers/aggregates",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_georgysavva_scany_v2//pgxscan:go_default_library",

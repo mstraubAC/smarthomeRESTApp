@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/middleware"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/models"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/middleware"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/models"
 
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/gin-gonic/gin"

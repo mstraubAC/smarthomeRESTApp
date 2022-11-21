@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "accessors",
     srcs = ["database.go"],
-    importpath = "mstraubAC/smarthome-restService/restService/accessors",
+    importpath = "github.com/mstraubAC/smarthomeRESTApp/restService/accessors",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_jackc_pgx_v5//pgxpool:go_default_library",

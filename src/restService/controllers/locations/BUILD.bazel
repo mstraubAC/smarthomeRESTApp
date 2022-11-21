@@ -7,7 +7,7 @@ go_library(
         "get_location.go",
         "get_locations.go",
     ],
-    importpath = "mstraubAC/smarthome-restService/restService/controllers/locations",
+    importpath = "github.com/mstraubAC/smarthomeRESTApp/restService/controllers/locations",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_georgysavva_scany_v2//pgxscan:go_default_library",

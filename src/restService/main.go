@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/accessors"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/configuration"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/controllers/aggregates"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/controllers/locations"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/middleware"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/accessors"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/configuration"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/controllers/aggregates"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/controllers/locations"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/middleware"
 	"go.uber.org/zap"
 )
 

@@ -9,7 +9,7 @@ go_binary(
 go_library(
     name = "restService_lib",
     srcs = ["main.go"],
-    importpath = "mstraubAC/smarthome-restService/restService",
+    importpath = "github.com/mstraubAC/smarthomeRESTApp/restService",
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_gin_gonic_gin//:go_default_library",

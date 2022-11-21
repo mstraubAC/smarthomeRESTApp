@@ -6,7 +6,7 @@ go_library(
         "errorhandler.go",
         "ginlogging.go",
     ],
-    importpath = "mstraubAC/smarthome-restService/restService/middleware",
+    importpath = "github.com/mstraubAC/smarthomeRESTApp/restService/middleware",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_gin_contrib_zap//:go_default_library",

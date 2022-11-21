@@ -3,7 +3,7 @@ package accessors
 import (
 	"context"
 
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/configuration"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/configuration"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/zap"

@@ -1,8 +1,8 @@
 package locations
 
 import (
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/accessors"
-	"github.com/mstraubAC/smarhomeRESTApp/src/restService/configuration"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/accessors"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/configuration"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
