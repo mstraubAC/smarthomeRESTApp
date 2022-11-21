@@ -37,7 +37,7 @@ func main() {
 	})
 
 	// v1 API
-	locations.RegisterRoutes(router.Group("/v1"), &config, logger)
+	locations.RegisterRoutes(router.Group("/v1"), &config, logger, &databaseAccessor)
 	aggregates.RegisterRoutes(router.Group("/v1"), &config, logger, &databaseAccessor)
 
 	// startup router

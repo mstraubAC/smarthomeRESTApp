@@ -27,7 +27,7 @@ func (h *handler) getLocation(c *gin.Context) {
 	}
 
 	// get sql accessor
-	sqlConn, err := h.GetSqlConnection()
+	sqlConn, err := h.Db.GetSqlConnection()
 	if err != nil {
 		// TODO: Unify logging format to include tracing Ids
 		h.Logger.Error(fmt.Sprintf("Failed to fetch a database connection: %v", err))

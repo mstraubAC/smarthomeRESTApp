@@ -23,7 +23,7 @@ import (
 func (h *handler) getLocations(c *gin.Context) {
 	ctx := context.Background()
 
-	sqlConn, err := h.GetSqlConnection()
+	sqlConn, err := h.Db.GetSqlConnection()
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
