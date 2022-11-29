@@ -1,19 +1,19 @@
 package main
 
 import (
-	"mstraubAC/smarthome-restService/accessors"
-	"mstraubAC/smarthome-restService/configuration"
-	"mstraubAC/smarthome-restService/controllers/aggregates"
-	"mstraubAC/smarthome-restService/controllers/locations"
-	"mstraubAC/smarthome-restService/middleware"
-
 	"github.com/gin-gonic/gin"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/accessors"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/configuration"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/controllers/aggregates"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/controllers/locations"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/middleware"
 	"go.uber.org/zap"
 )
 
 func main() {
 	// logger
 	logger, _ := zap.NewDevelopment()
+	logger.Debug("Test")
 
 	// configuration
 	config, err := configuration.LoadConfig(*logger)
@@ -22,9 +22,11 @@ func main() {
 		logger.Fatal("Terminating")
 		return
 	}
+	logger.Debug(config.RestListener)
 
 	// setup database
 	databaseAccessor := accessors.DatabaseAccessor{Config: &config, Logger: logger}
+	databaseAccessor.GetSqlConnection()
 
 	// setup routing middleware
 	router := gin.Default()

@@ -3,9 +3,10 @@ package locations
 import (
 	"context"
 	"fmt"
-	"mstraubAC/smarthome-restService/middleware"
-	"mstraubAC/smarthome-restService/models"
 	"net/http"
+
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/middleware"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/models"
 
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/gin-gonic/gin"

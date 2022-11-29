@@ -1,8 +1,8 @@
-package aggregates
+package locations
 
 import (
-	"mstraubAC/smarthome-restService/accessors"
-	"mstraubAC/smarthome-restService/configuration"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/accessors"
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/configuration"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -26,7 +26,7 @@ func RegisterRoutes(router *gin.RouterGroup, config *configuration.Config, logge
 	h.Db.GetSqlConnection()
 
 	// registering routes
-	routes := router.Group("/aggregates")
-	routes.GET("/heatpumpdaily", h.getHeatpumpAggregatesDaily)
-	// routes.GET("/:locationId", h.getLocation)
+	routes := router.Group("/locations")
+	routes.GET("/", h.getLocations)
+	routes.GET("/:locationId", h.getLocation)
 }

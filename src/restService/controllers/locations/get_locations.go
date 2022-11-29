@@ -2,8 +2,9 @@ package locations
 
 import (
 	"context"
-	"mstraubAC/smarthome-restService/models"
 	"net/http"
+
+	"github.com/mstraubAC/smarthomeRESTApp/src/restService/models"
 
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/gin-gonic/gin"

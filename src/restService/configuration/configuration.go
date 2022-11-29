@@ -12,7 +12,7 @@ type Config struct {
 
 func LoadConfig(logger zap.Logger) (c Config, err error) {
 	viper.SetEnvPrefix("SMARTHOME")
-	viper.AddConfigPath("./envs")
+	viper.AddConfigPath("../../envs")
 	viper.SetConfigName("dev")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
