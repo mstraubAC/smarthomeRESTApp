@@ -27,6 +27,13 @@ func RegisterRoutes(router *gin.RouterGroup, config *configuration.Config, logge
 
 	// registering routes
 	routes := router.Group("/aggregates")
-	routes.GET("/heatpumpdaily", h.getHeatpumpAggregatesDaily)
+	routes.GET("/heatpump/daily", h.getHeatpumpAggregatesDaily)
+	routes.GET("/heatpump/monthly", h.getHeatpumpAggregatesMonthly)
+	routes.GET("/heatpump/yearly", h.getHeatpumpAggregatesYearly)
+	routes.GET("/electricconsumption/moneyflow/daily", h.getElectricEnergyMoneyFlowDaily)
+	routes.GET("/electricconsumption/moneyflow/monthly", h.getElectricEnergyMoneyFlowMonthly)
+	routes.GET("/electricconsumption/moneyflow/yearly", h.getElectricEnergyMoneyFlowYearly)
+	routes.GET("/electricconsumption/flow/monthly", h.getElectricEnergyFlowMonthly)
+	routes.GET("/electricconsumption/flow/yearly", h.getElectricEnergyFlowYearly)
 	// routes.GET("/:locationId", h.getLocation)
 }

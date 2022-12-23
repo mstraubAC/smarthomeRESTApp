@@ -1,6 +1,9 @@
 package main
 
 import (
+	"time"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/mstraubAC/smarthomeRESTApp/src/restService/accessors"
 	"github.com/mstraubAC/smarthomeRESTApp/src/restService/configuration"
@@ -32,6 +35,14 @@ func main() {
 	router := gin.Default()
 	router.Use(middleware.ZapLoggingHandler(logger))
 	router.Use(middleware.ErrorHandler(logger))
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// register routes
 	router.GET("/", func(c *gin.Context) {

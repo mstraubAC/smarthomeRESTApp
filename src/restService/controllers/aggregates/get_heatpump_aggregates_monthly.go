@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/mstraubAC/smarthomeRESTApp/src/restService/middleware"
 	"github.com/mstraubAC/smarthomeRESTApp/src/restService/models"
@@ -13,21 +12,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type queryParametersGetHeatpumpAggregationDaily struct {
-	StartDate time.Time `json:"startDate" form:"startDate" time_format:"2006-01-02" binding:"required"`
-	EndDate   time.Time `json:"endDate" form:"endDate" time_format:"2006-01-02" binding:"required,gtfield=StartDate"`
-}
-
-func (h *handler) getHeatpumpAggregatesDaily(c *gin.Context) {
+func (h *handler) getHeatpumpAggregatesMonthly(c *gin.Context) {
 	ctx := context.Background()
-
-	// parameter validation
-	params := queryParametersGetHeatpumpAggregationDaily{}
-	if err := c.BindQuery(&params); err != nil {
-		// TODO: better reporting of validation errors but machine parsable, like https://blog.logrocket.com/gin-binding-in-go-a-tutorial-with-examples/
-		c.AbortWithError(http.StatusBadRequest, &middleware.TFError{Type: middleware.ErrorRequestParameterInvalid, Detail: fmt.Sprintf("%v", err)})
-		return
-	}
 
 	// get sql accessor
 	sqlConn, err := h.Db.GetSqlConnection()
@@ -39,13 +25,13 @@ func (h *handler) getHeatpumpAggregatesDaily(c *gin.Context) {
 	}
 
 	// perform action
-	var locations []*models.HeatpumpPowerAggregatesDailyType
+	var locations []*models.HeatpumpPowerAggregatesMonthlyType
 	err = pgxscan.Select(ctx, sqlConn, &locations,
 		`SELECT 
-				logdate, tagesarbeitszahlinclcontrolandpumps, tagesarbeitszahlsolvis, tagesarbeitszahlfullelectricmeasurement, 
+				logdate, monatsarbeitszahlinclcontrolandpumps, monatsarbeitszahlsolvis, monatsarbeitszahlfullelectricmeasurement, 
 				totalelectricenergy, totalelectricenergyfullmeasurement, totalelectricenergysolvismeasurement, totalheatingenergy,
 				heatpumpthermalpowerenergy, heatpumpresistanceheatingenergy, outsidetemperatureavg, flowtemperaturecircuit1avg 
-			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionDaily" WHERE logdate >= $1 AND logdate <= $2`, params.StartDate, params.EndDate)
+			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionMonthly"`)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
