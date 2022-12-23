@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+      - name: setup Go environment
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.19.4'
       - name: Build RestService
         run: go build
         working-directory: ./src/restService
