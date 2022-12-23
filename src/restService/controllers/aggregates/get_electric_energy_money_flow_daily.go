@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/mstraubAC/smarthomeRESTApp/src/restService/middleware"
 	"github.com/mstraubAC/smarthomeRESTApp/src/restService/models"
@@ -12,21 +13,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// type queryParametersGetHeatpumpAggregationDaily struct {
-// 	StartDate time.Time `json:"startDate" form:"startDate" time_format:"2006-01-02" binding:"required"`
-// 	EndDate   time.Time `json:"endDate" form:"endDate" time_format:"2006-01-02" binding:"required,gtfield=StartDate"`
-// }
+type queryParametersGetElectricEnergyMoneyFlowDaily struct {
+	StartDate time.Time `json:"startDate" form:"startDate" time_format:"2006-01-02" binding:"required"`
+	EndDate   time.Time `json:"endDate" form:"endDate" time_format:"2006-01-02" binding:"required,gtfield=StartDate"`
+}
 
 func (h *handler) getElectricEnergyMoneyFlowDaily(c *gin.Context) {
 	ctx := context.Background()
 
-	// // parameter validation
-	// params := queryParametersGetHeatpumpAggregationDaily{}
-	// if err := c.BindQuery(&params); err != nil {
-	// 	// TODO: better reporting of validation errors but machine parsable, like https://blog.logrocket.com/gin-binding-in-go-a-tutorial-with-examples/
-	// 	c.AbortWithError(http.StatusBadRequest, &middleware.TFError{Type: middleware.ErrorRequestParameterInvalid, Detail: fmt.Sprintf("%v", err)})
-	// 	return
-	// }
+	// parameter validation
+	params := queryParametersGetElectricEnergyMoneyFlowDaily{}
+	if err := c.BindQuery(&params); err != nil {
+		// TODO: better reporting of validation errors but machine parsable, like https://blog.logrocket.com/gin-binding-in-go-a-tutorial-with-examples/
+		c.AbortWithError(http.StatusBadRequest, &middleware.TFError{Type: middleware.ErrorRequestParameterInvalid, Detail: fmt.Sprintf("%v", err)})
+		return
+	}
 
 	// get sql accessor
 	sqlConn, err := h.Db.GetSqlConnection()
@@ -45,7 +46,9 @@ func (h *handler) getElectricEnergyMoneyFlowDaily(c *gin.Context) {
 			,vnbbuyinclvat,vnbsellinclvat
 			,pvproductionsellinclvat,vatforpvdirectconsumption,savedbypvdirectuse
 			,moneyflowout,moneyflowinandsavings
-		FROM "aggregation"."vElectricEnergyMoneyFlowDaily" ORDER BY logdate ASC`)
+		FROM "aggregation"."vElectricEnergyMoneyFlowDaily"
+		WHERE logdate >= $1 AND logdate <= $2
+		ORDER BY logdate ASC`, params.StartDate, params.EndDate)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
