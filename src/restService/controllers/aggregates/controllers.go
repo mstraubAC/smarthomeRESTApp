@@ -33,6 +33,7 @@ func RegisterRoutes(router *gin.RouterGroup, config *configuration.Config, logge
 	routes.GET("/electricconsumption/moneyflow/daily", h.getElectricEnergyMoneyFlowDaily)
 	routes.GET("/electricconsumption/moneyflow/monthly", h.getElectricEnergyMoneyFlowMonthly)
 	routes.GET("/electricconsumption/moneyflow/yearly", h.getElectricEnergyMoneyFlowYearly)
+	routes.GET("/electricconsumption/flow/daily", h.getElectricEnergyFlowDaily)
 	routes.GET("/electricconsumption/flow/monthly", h.getElectricEnergyFlowMonthly)
 	routes.GET("/electricconsumption/flow/yearly", h.getElectricEnergyFlowYearly)
 	// routes.GET("/:locationId", h.getLocation)
