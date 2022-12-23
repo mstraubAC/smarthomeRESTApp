@@ -37,7 +37,7 @@ jobs:
         run: npm run build
         working-directory: ./src/webapp
       - name: Package build
-        run: tar zcf ./webapp-package.tar.gz *
+        run: tar zcf webapp-package.tar.gz *
         working-directory: ./src/webapp/dist
       - name: release
         uses: actions/create-release@v1
@@ -56,7 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./webapp-package.tar.gz
+          asset_path: ./src/webapp/dist/webapp-package.tar.gz
           asset_name: webapp-package.tar.gz
           asset_content_type: application/gzip
       
