@@ -70,7 +70,7 @@ jobs:
       - name: Extract Version
         id: version_step
         run: |
-          echo "version_tag=$(echo ${{ github.actor }}_dev | tr '[:upper:]' '[:lower:]'"}" >> $GITHUB_ENV
+          echo "version_tag=$(echo ${{ github.actor }}_dev | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Print Version
         run: |
           echo ${{ env.version_tag }}
