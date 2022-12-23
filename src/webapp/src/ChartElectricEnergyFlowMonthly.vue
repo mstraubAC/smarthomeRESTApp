@@ -47,8 +47,8 @@ export default {
       default: () => {}
     },
     plugins: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => [Title]
     }
   },
   data() {
@@ -59,18 +59,28 @@ export default {
       },
       chartOptions: {
         responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Monatlicher Energiefluss",
+          },
+        },
         scales: {
             x: {
                 stacked: true,
+                title: {
+                  display: true,
+                  text: 'Monat',
+                }
             },
             y: {
                 beginAtZero: true,
                 stacked: true,
+                title: {
+                  display: true,
+                  text: 'Energie / kWh',
+                }
             },
-            // y2: {
-            //     type: 'linear',
-            //     position: 'right'
-            // }
         },
         interaction: {
             intersect: false,
@@ -91,14 +101,14 @@ export default {
 
         //
         this.chartData.datasets.push({
-            label:'Strombezug in kWh',
+            label:'Strombezug',
             backgroundColor: 'rgb(255, 99, 132)',
             stack: 'VNB',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Einspeisung in kWh',
+            label:'Einspeisung',
             backgroundColor: 'rgb(75, 192, 192)',
             stack: 'VNB',
             order: 0,
@@ -132,16 +142,7 @@ export default {
             order: 0,
             data: [],
             });
-        // this.chartData.datasets.push({
-        //     label:'Daily Work Ratio', 
-        //     // backgroundColor: 'rgb(201, 203, 207)',
-        //     stack: 'Worknumbers',
-        //     // type: 'line',
-        //     yAxisID: 'y2',
-        //     data: [],
-        //     });
         rawData.forEach(element => {
-            // console.log(element)
             var logdate = new Date(Date.parse(element.logdate));
             var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0');
             this.chartData.labels.push(logdateStr);

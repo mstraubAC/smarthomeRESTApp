@@ -19,7 +19,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-  name: 'ChartHeatpumpMonthly',
+  name: 'ChartElectricEnergyMoneyDaily',
   components: { Bar },
   props: {
     chartId: {
@@ -47,8 +47,8 @@ export default {
       default: () => {}
     },
     plugins: {
-        type: Array,
-        default: () => [Title]
+      type: Array,
+      default: () => [Title]
     }
   },
   data() {
@@ -62,7 +62,7 @@ export default {
         plugins: {
           title: {
             display: true,
-            text: "Monatlicher elektrischer Energiebedarf und thermische Energiebereitstellung Wärmepumpe",
+            text: "Täglicher Energie relatierter Einnahmen-/Ausgabenfluss (letzten 30 Tage)",
           },
         },
         scales: {
@@ -70,7 +70,7 @@ export default {
                 stacked: true,
                 title: {
                   display: true,
-                  text: 'Monat',
+                  text: 'Tag',
                 }
             },
             y: {
@@ -78,7 +78,7 @@ export default {
                 stacked: true,
                 title: {
                   display: true,
-                  text: 'Energie / kWh',
+                  text: 'EUR',
                 }
             },
         },
@@ -90,54 +90,63 @@ export default {
     }
   },
   methods: {
-    async getHeatpumpMonthly() {
+    async getElectricEnergyConsumptionMonthlyMoneyFlowDaily() {
         this.loaded = false;
         this.labels = [ ];
         this.datasets = [ ];
         
         //
-        const res = await fetch("http://localhost:7777/v1/aggregates/heatpump/monthly");
+        const today = new Date()
+        const todayStr = today.toISOString().slice(0, 10);
+        var startDate = new Date(today);
+        startDate.setMonth(startDate.getMonth() - 1);
+        const startDateStr = startDate.toISOString().slice(0, 10);
+        const res = await fetch("http://localhost:7777/v1/aggregates/electricconsumption/moneyflow/daily?startDate=" + startDateStr + "&endDate=" + todayStr);
         const rawData = await res.json();
 
         //
         this.chartData.datasets.push({
-            label:'Thermische Energie',
+            label:'Strombezugskosten',
             backgroundColor: 'rgb(255, 99, 132)',
-            stack: 'Thermisch',
+            // stack: 'VNB',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Elektrische Energie Wärmepumpe',
+            label:'Einspeiseverguetung',
             backgroundColor: 'rgb(75, 192, 192)',
-            stack: 'Electrisch',
+            // stack: 'VNB',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Electrische Energie Steuerung und Pumpen', 
+            label:'Umsatzsteuer auf Eigenverbrauch', 
             backgroundColor: 'rgb(201, 203, 207)',
-            stack: 'Electrisch',
+            // stack: 'Electric energy',
+            order: 0,
+            data: [],
+            });
+        this.chartData.datasets.push({
+            label:'Einsparung Bezugskosten', 
+            backgroundColor: 'rgb(201, 203, 207)',
+            // stack: 'Electric energy',
             order: 0,
             data: [],
             });
         rawData.forEach(element => {
             var logdate = new Date(Date.parse(element.logdate));
-            var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0');
+            var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0') + "-" + String(logdate.getDay()+1).padStart(2, '0');
             this.chartData.labels.push(logdateStr);
-            this.chartData.datasets[0].data.push(element.totalThermalEnergyInkWh);
-            this.chartData.datasets[1].data.push(element.totalElectricEnergyHeatSourceOnlyInkWh);
-            var electricEnergyControl = 0
-            if (element.totalElectricEnergyIncludingControlInkWh > 0) {
-              electricEnergyControl = element.totalElectricEnergyIncludingControlInkWh - element.totalElectricEnergyHeatSourceOnlyInkWh
-            }
-            this.chartData.datasets[2].data.push(electricEnergyControl);
+            this.chartData.datasets[0].data.push(element.utilitiesBoughInclVat);
+            this.chartData.datasets[1].data.push(element.utilitiesSoldInclVat);
+            this.chartData.datasets[2].data.push(element.vatToPayForDirectConsumption);
+            this.chartData.datasets[3].data.push(-1. * element.savedUtilitiesBuy);
         });
         this.loaded = true;
     }
   },
   mounted() {
-    this.getHeatpumpMonthly()
+    this.getElectricEnergyConsumptionMonthlyMoneyFlowDaily()
   }
 }
 </script>

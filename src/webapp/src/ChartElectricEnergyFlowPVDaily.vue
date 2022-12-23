@@ -19,7 +19,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-  name: 'ChartHeatpumpMonthly',
+  name: 'ChartElectricEnergyFlowPVDaily',
   components: { Bar },
   props: {
     chartId: {
@@ -47,8 +47,8 @@ export default {
       default: () => {}
     },
     plugins: {
-        type: Array,
-        default: () => [Title]
+      type: Array,
+      default: () => [Title]
     }
   },
   data() {
@@ -62,7 +62,7 @@ export default {
         plugins: {
           title: {
             display: true,
-            text: "Monatlicher elektrischer Energiebedarf und thermische Energiebereitstellung Wärmepumpe",
+            text: "Täglicher PV Energiefluss (letzten 30 Tage)",
           },
         },
         scales: {
@@ -70,7 +70,7 @@ export default {
                 stacked: true,
                 title: {
                   display: true,
-                  text: 'Monat',
+                  text: 'Tag',
                 }
             },
             y: {
@@ -90,54 +90,62 @@ export default {
     }
   },
   methods: {
-    async getHeatpumpMonthly() {
+    async getElectricEnergyConsumptionMonthlyFlowPVDaily() {
         this.loaded = false;
         this.labels = [ ];
         this.datasets = [ ];
         
         //
-        const res = await fetch("http://localhost:7777/v1/aggregates/heatpump/monthly");
+        const today = new Date()
+        const todayStr = today.toISOString().slice(0, 10);
+        var startDate = new Date(today);
+        startDate.setMonth(startDate.getMonth() - 1);
+        const startDateStr = startDate.toISOString().slice(0, 10);
+        const res = await fetch("http://localhost:7777/v1/aggregates/electricconsumption/flow/daily?startDate=" + startDateStr + "&endDate=" + todayStr);
         const rawData = await res.json();
 
-        //
         this.chartData.datasets.push({
-            label:'Thermische Energie',
-            backgroundColor: 'rgb(255, 99, 132)',
-            stack: 'Thermisch',
+            label:'PV', 
+            backgroundColor: 'rgb(234, 250, 24)',
+            stack: 'Erzeuger',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Elektrische Energie Wärmepumpe',
+            label:'Einspeisung',
             backgroundColor: 'rgb(75, 192, 192)',
-            stack: 'Electrisch',
+            stack: 'Senken',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Electrische Energie Steuerung und Pumpen', 
+            label:'Eigenverbrauch', 
             backgroundColor: 'rgb(201, 203, 207)',
-            stack: 'Electrisch',
+            stack: 'Senken',
             order: 0,
             data: [],
             });
+
         rawData.forEach(element => {
+            // console.log(element);
             var logdate = new Date(Date.parse(element.logdate));
-            var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0');
+            var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0') + "-" + String(logdate.getDay()+1).padStart(2, '0');
             this.chartData.labels.push(logdateStr);
-            this.chartData.datasets[0].data.push(element.totalThermalEnergyInkWh);
-            this.chartData.datasets[1].data.push(element.totalElectricEnergyHeatSourceOnlyInkWh);
-            var electricEnergyControl = 0
-            if (element.totalElectricEnergyIncludingControlInkWh > 0) {
-              electricEnergyControl = element.totalElectricEnergyIncludingControlInkWh - element.totalElectricEnergyHeatSourceOnlyInkWh
+            this.chartData.datasets[0].data.push(element.pvGeneration);
+            this.chartData.datasets[1].data.push(element.electricGridFeedIn);
+            var eigenVerbrauch = element.pvGeneration - element.electricGridFeedIn
+            if (eigenVerbrauch < 0) {
+              this.chartData.datasets[2].data.push(0);
             }
-            this.chartData.datasets[2].data.push(electricEnergyControl);
+            else {
+              this.chartData.datasets[2].data.push(eigenVerbrauch);
+            }
         });
         this.loaded = true;
     }
   },
   mounted() {
-    this.getHeatpumpMonthly()
+    this.getElectricEnergyConsumptionMonthlyFlowPVDaily()
   }
 }
 </script>

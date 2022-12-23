@@ -8,20 +8,20 @@
       </v-col>
       <v-col>
         <v-card width="600px">
-          <ChartElectricEnergyFlowPVYearly/>
-        </v-card>        
+          <ChartElectricEnergyMoneyMonthly/>
+        </v-card>
       </v-col>
       <v-col>
         <v-card width="600px">
-          <ChartElectricEnergyFlowYearly/>
+          <ChartElectricEnergyMoneyDaily/>
         </v-card>
-      </v-col>      
+      </v-col>
     </v-row>
     <v-row>
       <v-col>
         <v-card width="600px">
-          <ChartElectricEnergyMoneyMonthly/>
-        </v-card>
+          <ChartElectricEnergyFlowPVYearly/>
+        </v-card>        
       </v-col>
       <v-col>
         <v-card width="600px">
@@ -30,7 +30,24 @@
       </v-col>
       <v-col>
         <v-card width="600px">
+          <ChartElectricEnergyFlowPVDaily/>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card width="600px">
+          <ChartElectricEnergyFlowYearly/>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card width="600px">
           <ChartElectricEnergyFlowMonthly/>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card width="600px">
+          <ChartElectricEnergyFlowDaily/>
         </v-card>
       </v-col>
     </v-row>
@@ -58,10 +75,16 @@
 import ChartHeatpumpDaily from './ChartHeatpumpDaily.vue'
 import ChartHeatpumpMonthly from './ChartHeatpumpMonthly.vue'
 import ChartHeatpumpYearly from './ChartHeatpumpYearly.vue'
+
+import ChartElectricEnergyMoneyDaily from './ChartElectricEnergyMoneyDaily.vue'
 import ChartElectricEnergyMoneyMonthly from './ChartElectricEnergyMoneyMonthly.vue'
 import ChartElectricEnergyMoneyYearly from './ChartElectricEnergyMoneyYearly.vue'
+
+import ChartElectricEnergyFlowDaily from './ChartElectricEnergyFlowDaily.vue'
 import ChartElectricEnergyFlowMonthly from './ChartElectricEnergyFlowMonthly.vue'
 import ChartElectricEnergyFlowYearly from './ChartElectricEnergyFlowYearly.vue'
+
+import ChartElectricEnergyFlowPVDaily from './ChartElectricEnergyFlowPVDaily.vue'
 import ChartElectricEnergyFlowPVMonthly from './ChartElectricEnergyFlowPVMonthly.vue'
 import ChartElectricEnergyFlowPVYearly from './ChartElectricEnergyFlowPVYearly.vue'
 
@@ -71,9 +94,9 @@ export default {
   name: 'App',
   components: { 
       ChartHeatpumpDaily, ChartHeatpumpMonthly, ChartHeatpumpYearly,
-      ChartElectricEnergyMoneyMonthly, ChartElectricEnergyMoneyYearly, 
-      ChartElectricEnergyFlowMonthly, ChartElectricEnergyFlowYearly, 
-      ChartElectricEnergyFlowPVMonthly, ChartElectricEnergyFlowPVYearly
+      ChartElectricEnergyMoneyDaily, ChartElectricEnergyMoneyMonthly, ChartElectricEnergyMoneyYearly, 
+      ChartElectricEnergyFlowDaily, ChartElectricEnergyFlowMonthly, ChartElectricEnergyFlowYearly, 
+      ChartElectricEnergyFlowPVDaily, ChartElectricEnergyFlowPVMonthly, ChartElectricEnergyFlowPVYearly
   },
   data () {
     return {

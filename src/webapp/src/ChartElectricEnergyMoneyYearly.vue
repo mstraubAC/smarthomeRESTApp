@@ -47,8 +47,8 @@ export default {
       default: () => {}
     },
     plugins: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => [Title]
     }
   },
   data() {
@@ -59,18 +59,28 @@ export default {
       },
       chartOptions: {
         responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Jährlicher Energie relatierter Einnahmen-/Ausgabenfluss",
+          },
+        },
         scales: {
             x: {
                 stacked: true,
+                title: {
+                  display: true,
+                  text: 'Jahr',
+                }
             },
             y: {
                 beginAtZero: true,
                 stacked: true,
+                title: {
+                  display: true,
+                  text: 'EUR',
+                }
             },
-            // y2: {
-            //     type: 'linear',
-            //     position: 'right'
-            // }
         },
         interaction: {
             intersect: false,
@@ -91,21 +101,21 @@ export default {
 
         //
         this.chartData.datasets.push({
-            label:'Strombezugskosten in EUR',
+            label:'Strombezugskosten',
             backgroundColor: 'rgb(255, 99, 132)',
             // stack: 'VNB',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Einspeiseverguetung in EUR',
+            label:'Einspeiseverguetung',
             backgroundColor: 'rgb(75, 192, 192)',
             // stack: 'VNB',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Umsatzsteuer auf Eigenverbrauch in EUR', 
+            label:'Umsatzsteuer auf Eigenverbrauch', 
             backgroundColor: 'rgb(201, 203, 207)',
             // stack: 'Electric energy',
             order: 0,
@@ -119,7 +129,6 @@ export default {
             data: [],
             });
         rawData.forEach(element => {
-            // console.log(element)
             var logdate = new Date(Date.parse(element.logdate));
             var logdateStr = logdate.getFullYear();
             this.chartData.labels.push(logdateStr);

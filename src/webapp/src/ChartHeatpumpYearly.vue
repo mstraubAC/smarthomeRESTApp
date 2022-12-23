@@ -47,8 +47,8 @@ export default {
       default: () => {}
     },
     plugins: {
-      type: Object,
-      default: () => {}
+        type: Array,
+        default: () => [Title]
     }
   },
   data() {
@@ -59,18 +59,28 @@ export default {
       },
       chartOptions: {
         responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Jährlicher elektrischer Energiebedarf und thermische Energiebereitstellung Wärmepumpe",
+          },
+        },
         scales: {
             x: {
                 stacked: true,
+                title: {
+                  display: true,
+                  text: 'Jahr',
+                }
             },
             y: {
                 beginAtZero: true,
                 stacked: true,
+                title: {
+                  display: true,
+                  text: 'Energie / kWh',
+                }
             },
-            // y2: {
-            //     type: 'linear',
-            //     position: 'right'
-            // }
         },
         interaction: {
             intersect: false,
@@ -91,36 +101,27 @@ export default {
 
         //
         this.chartData.datasets.push({
-            label:'Thermal Energy in kWh',
+            label:'Thermische Energie',
             backgroundColor: 'rgb(255, 99, 132)',
-            stack: 'Thermal energy',
+            stack: 'Thermisch',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Electric Energy Heatpump in kWh',
+            label:'Elektrische Energie Waermepumpe',
             backgroundColor: 'rgb(75, 192, 192)',
-            stack: 'Electric energy',
+            stack: 'Electrisch',
             order: 0,
             data: [],
             });
         this.chartData.datasets.push({
-            label:'Electric Energy Control in kWh', 
+            label:'Electrische Energie inkl. Steuerung', 
             backgroundColor: 'rgb(201, 203, 207)',
-            stack: 'Electric energy',
+            stack: 'Electrisch',
             order: 0,
             data: [],
             });
-        // this.chartData.datasets.push({
-        //     label:'Daily Work Ratio', 
-        //     // backgroundColor: 'rgb(201, 203, 207)',
-        //     stack: 'Worknumbers',
-        //     // type: 'line',
-        //     yAxisID: 'y2',
-        //     data: [],
-        //     });
         rawData.forEach(element => {
-            // console.log(element)
             var logdate = new Date(Date.parse(element.logdate));
             var logdateStr = logdate.getFullYear();
             this.chartData.labels.push(logdateStr);
@@ -131,7 +132,6 @@ export default {
               electricEnergyControl = element.totalElectricEnergyIncludingControlInkWh - element.totalElectricEnergyHeatSourceOnlyInkWh
             }
             this.chartData.datasets[2].data.push(electricEnergyControl);
-            // this.chartData.datasets[3].data.push(element.dailyWorkCoefficientHeatSourceOnly);
         });
         this.loaded = true;
     }
