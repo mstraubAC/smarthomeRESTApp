@@ -1,4 +1,4 @@
-name: golang-pipeline
+name: build-and-release-pipeline
 on: 
   push:
     branches:
@@ -60,10 +60,42 @@ jobs:
   #         asset_name: webapp-package.tar.gz
   #         asset_content_type: application/gzip
       
-  deploy:
+  release-dev:
     runs-on: ubuntu-latest
     needs: test
-    # if: startsWith(github.ref, 'refs/tags')
+    if: ! startsWith(github.ref, 'refs/tags')
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Extract Version
+        id: version_step
+        run: |
+          echo "version=${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_OUTPUT
+          echo "version_tag=$GITHUB_REPOSITORY:${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_OUTPUT
+          echo "latest_tag=$GITHUB_REPOSITORY:latest" >> $GITHUB_OUTPUT
+      - name: Print Version
+        run: |
+          echo ${{steps.version_step.outputs.version_tag}}
+          echo ${{steps.version_step.outputs.latest_tag}}
+          echo ${{GITHUB_ACTOR}}
+          echo ${{ github.actor }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build Container Image
+        run: docker build . --tag ghcr.io/mstraubac/smarthomerestapp_restservice:latest
+        working-directory: ./src/restService
+      - name: Push Container Image to registry
+        run: docker push ghcr.io/mstraubac/smarthomerestapp_restservice:latest
+        working-directory: ./src/restService
+
+  release-stable:
+    runs-on: ubuntu-latest
+    needs: test
+    if: startsWith(github.ref, 'refs/tags')
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
