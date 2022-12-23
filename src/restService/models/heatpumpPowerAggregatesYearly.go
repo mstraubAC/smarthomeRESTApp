@@ -6,11 +6,11 @@ import (
 	"github.com/jackc/pgx/v5/pgtype/zeronull"
 )
 
-type HeatpumpPowerAggregatesType struct {
+type HeatpumpPowerAggregatesYearlyType struct {
 	Logdate                                  time.Time       `json:"logdate" db:"logdate"`
-	DailyWorkCoefficient                     zeronull.Float8 `json:"dailyWorkCoefficient" db:"tagesarbeitszahlinclcontrolandpumps"`
-	DailyWorkCoefficientHeatSourceOnly       zeronull.Float8 `json:"dailyWorkCoefficientHeatSourceOnly" db:"tagesarbeitszahlsolvis"`
-	DailyWorkCoefficientIncludingControl     zeronull.Float8 `json:"dailyWorkCoefficientIncludingControl" db:"tagesarbeitszahlfullelectricmeasurement"`
+	YearlyWorkCoefficient                    zeronull.Float8 `json:"yearlyWorkCoefficient" db:"jahresarbeitszahlinclcontrolandpumps"`
+	YearlyWorkCoefficientHeatSourceOnly      zeronull.Float8 `json:"yearlyWorkCoefficientHeatSourceOnly" db:"jahresarbeitszahlsolvis"`
+	YearlyWorkCoefficientIncludingControl    zeronull.Float8 `json:"yearlyWorkCoefficientIncludingControl" db:"jahresarbeitszahlfullelectricmeasurement"`
 	TotalElectricEnergyInkWh                 zeronull.Float8 `json:"totalElectricEnergyInkWh" db:"totalelectricenergy"`
 	TotalElectricEnergyIncludingControlInkWh zeronull.Float8 `json:"totalElectricEnergyIncludingControlInkWh" db:"totalelectricenergyfullmeasurement"`
 	TotalElectricEnergyHeatSourceOnlyInkWh   zeronull.Float8 `json:"totalElectricEnergyHeatSourceOnlyInkWh" db:"totalelectricenergysolvismeasurement"`
