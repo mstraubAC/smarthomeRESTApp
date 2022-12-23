@@ -12,14 +12,14 @@ type Config struct {
 
 func LoadConfig(logger zap.Logger) (c Config, err error) {
 	viper.SetEnvPrefix("SMARTHOME")
-	viper.AddConfigPath("../../envs")
+	viper.AddConfigPath("envs")
 	viper.SetConfigName("dev")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
 
 	err = viper.ReadInConfig()
-	if err != nil {
-		logger.Error("Failed to read configuration: " + err.Error())
+	if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+		logger.Error("Failed to process configuration: " + err.Error())
 		return c, err
 	}
 
