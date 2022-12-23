@@ -96,7 +96,8 @@ export default {
         this.datasets = [ ];
         
         //
-        const res = await fetch("http://localhost:7777/v1/aggregates/electricconsumption/flow/yearly");
+        const url = process.env.VUE_APP_SMARTHOME_API + "/v1/aggregates/electricconsumption/flow/yearly";
+        const res = await fetch(url);
         const rawData = await res.json();
 
         this.chartData.datasets.push({

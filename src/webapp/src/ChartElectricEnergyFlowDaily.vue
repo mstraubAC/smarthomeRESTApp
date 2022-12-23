@@ -101,7 +101,8 @@ export default {
         var startDate = new Date(today);
         startDate.setMonth(startDate.getMonth() - 1);
         const startDateStr = startDate.toISOString().slice(0, 10);
-        const res = await fetch("http://localhost:7777/v1/aggregates/electricconsumption/flow/daily?startDate=" + startDateStr + "&endDate=" + todayStr);
+        const url = process.env.VUE_APP_SMARTHOME_API + "/v1/aggregates/electricconsumption/flow/daily?startDate=" + startDateStr + "&endDate=" + todayStr;
+        const res = await fetch(url);
         const rawData = await res.json();
 
         //
