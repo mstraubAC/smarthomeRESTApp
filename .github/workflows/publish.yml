@@ -70,13 +70,10 @@ jobs:
       - name: Extract Version
         id: version_step
         run: |
-          echo "version=${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_OUTPUT
-          echo "version_tag=$GITHUB_REPOSITORY:${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_OUTPUT
-          echo "latest_tag=$GITHUB_REPOSITORY:latest" >> $GITHUB_OUTPUT
+          echo "version_tag=$(echo ${{ github.actor }}_dev | '[:upper:]' '[:lower:]'"}" >> $GITHUB_ENV
       - name: Print Version
         run: |
-          echo ${{steps.version_step.outputs.version_tag}}
-          echo ${{steps.version_step.outputs.latest_tag}}
+          echo ${{ env.version_tag }}
           echo ${{ github.actor }}
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -85,10 +82,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Build Container Image
-        run: docker build . --tag ghcr.io/mstraubac/smarthomerestapp_restservice:latest
+        run: docker build . --tag ghcr.io/mstraubac/smarthomerestapp_restservice:${{ env.version_tag }}
         working-directory: ./src/restService
       - name: Push Container Image to registry
-        run: docker push ghcr.io/mstraubac/smarthomerestapp_restservice:latest
+        run: docker push ghcr.io/mstraubac/smarthomerestapp_restservice:${{ env.version_tag }}
         working-directory: ./src/restService
 
   release-stable:
