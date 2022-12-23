@@ -74,10 +74,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Build Container Image
-        run: docker build . --tag ghcr.io/mstraubAC/smarthomeRESTapp_restService:latest
+        run: docker build . --tag ghcr.io/mstraubac/smarthomerestapp_restservice:latest
         working-directory: ./src/restService
       - name: Push Container Image to registry
-        run: run push ghcr.io/mstraubAC/smarthomeRESTapp_restService:latest
+        run: docker push ghcr.io/mstraubac/smarthomerestapp_restservice:latest
         working-directory: ./src/restService
       # - name: Extract Version
       #   id: version_step
