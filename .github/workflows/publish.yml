@@ -36,6 +36,9 @@ jobs:
       - name: Build WebApp
         run: npm run build
         working-directory: ./src/webapp
+      - name: Package build
+        run: tar zcf ./webapp-package.tar.gz *
+        working-directory: ./src/webapp/dist
       - name: release
         uses: actions/create-release@v1
         id: create_release
@@ -47,6 +50,15 @@ jobs:
           # body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: upload webapp artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./webapp-package.tar.gz
+          asset_name: webapp-package.tar.gz
+          asset_content_type: application/gzip
       
   # deploy:
   #   runs-on: ubuntu-latest
