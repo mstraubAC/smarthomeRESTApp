@@ -56,7 +56,7 @@ jobs:
       - name: Extract Version
         id: version_step
         run: |
-          echo "version_tag=$(echo ${{ github.actor }}_dev | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "version_tag=ghcr.io/mstraubac/smarthomerestapp_restservice:$(echo ${{ github.actor }}_dev | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Print Version
         run: |
           echo ${{ env.version_tag }}
@@ -109,8 +109,8 @@ jobs:
         id: version_step
         run: |
           echo "version=${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_OUTPUT
-          echo "version_tag=$GITHUB_REPOSITORY:${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_ENV
-          echo "latest_tag=$GITHUB_REPOSITORY:latest" >> $GITHUB_OUTPUT
+          echo "version_tag=ghcr.io/mstraubac/smarthomerestapp_restservice:${GITHUB_REF#$"refs/tags/v"}" >> $GITHUB_ENV
+          echo "latest_tag=ghcr.io/mstraubac/smarthomerestapp_restservice:latest" >> $GITHUB_ENV
       - name: Print Version
         run: |
           echo ${{steps.version_step.outputs.version_tag}}
@@ -122,8 +122,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - name: Build Container Image
-        run: docker build . --tag ghcr.io/mstraubac/smarthomerestapp_restservice:latest --tag ghcr.io/mstraubac/smarthomerestapp_restservice:${{ env.version_tag }}
+        run: docker build . --tag ${{ env.latest_tag }} --tag ${{ env.version_tag }}
         working-directory: ./src/restService
       - name: Push Container Image to registry
-        run: docker push --all-tags ghcr.io/mstraubac/smarthomerestapp_restservice:latest
+        run: docker push --all-tags ${{ env.latest_tag }}
         working-directory: ./src/restService
