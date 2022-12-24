@@ -32,7 +32,8 @@ func (h *handler) getElectricEnergyMoneyFlowYearly(c *gin.Context) {
 			,vnbbuyinclvat,vnbsellinclvat
 			,pvproductionsellinclvat,vatforpvdirectconsumption,savedbypvdirectuse
 			,moneyflowout,moneyflowinandsavings
-		FROM "aggregation"."vElectricEnergyMoneyFlowYearly" ORDER BY logdate ASC`)
+		FROM "aggregation"."vElectricEnergyMoneyFlowYearly" 
+		ORDER BY logdate ASC`)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))

@@ -31,7 +31,8 @@ func (h *handler) getHeatpumpAggregatesMonthly(c *gin.Context) {
 				logdate, monatsarbeitszahlinclcontrolandpumps, monatsarbeitszahlsolvis, monatsarbeitszahlfullelectricmeasurement, 
 				totalelectricenergy, totalelectricenergyfullmeasurement, totalelectricenergysolvismeasurement, totalheatingenergy,
 				heatpumpthermalpowerenergy, heatpumpresistanceheatingenergy, outsidetemperatureavg, flowtemperaturecircuit1avg 
-			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionMonthly"`)
+			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionMonthly"
+			ORDER BY logdate ASC`)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))

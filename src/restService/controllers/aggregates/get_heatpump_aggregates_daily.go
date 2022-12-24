@@ -45,7 +45,11 @@ func (h *handler) getHeatpumpAggregatesDaily(c *gin.Context) {
 				logdate, tagesarbeitszahlinclcontrolandpumps, tagesarbeitszahlsolvis, tagesarbeitszahlfullelectricmeasurement, 
 				totalelectricenergy, totalelectricenergyfullmeasurement, totalelectricenergysolvismeasurement, totalheatingenergy,
 				heatpumpthermalpowerenergy, heatpumpresistanceheatingenergy, outsidetemperatureavg, flowtemperaturecircuit1avg 
-			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionDaily" WHERE logdate >= $1 AND logdate <= $2`, params.StartDate, params.EndDate)
+			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionDaily" 
+			WHERE 
+				logdate >= $1 
+				AND logdate <= $2
+			ORDER BY logdate ASC`, params.StartDate, params.EndDate)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))

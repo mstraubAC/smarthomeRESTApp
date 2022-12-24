@@ -35,7 +35,8 @@ func (h *handler) getElectricEnergyFlowYearly(c *gin.Context) {
 			,electricHeatingConsumeValue
 			,electricItConsumeValue
 			,electricWallboxConsumeValue
-		FROM aggregation."vElectricEnergyFlowsYearly" ORDER BY logdate ASC`)
+		FROM aggregation."vElectricEnergyFlowsYearly" 
+		ORDER BY logdate ASC`)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))

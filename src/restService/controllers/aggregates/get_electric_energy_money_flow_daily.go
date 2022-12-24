@@ -47,7 +47,9 @@ func (h *handler) getElectricEnergyMoneyFlowDaily(c *gin.Context) {
 			,pvproductionsellinclvat,vatforpvdirectconsumption,savedbypvdirectuse
 			,moneyflowout,moneyflowinandsavings
 		FROM "aggregation"."vElectricEnergyMoneyFlowDaily"
-		WHERE logdate >= $1 AND logdate <= $2
+		WHERE 
+			logdate >= $1 
+			AND logdate <= $2
 		ORDER BY logdate ASC`, params.StartDate, params.EndDate)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))

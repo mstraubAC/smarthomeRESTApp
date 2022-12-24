@@ -31,7 +31,8 @@ func (h *handler) getHeatpumpAggregatesYearly(c *gin.Context) {
 				logdate, jahresarbeitszahlinclcontrolandpumps, jahresarbeitszahlsolvis, jahresarbeitszahlfullelectricmeasurement, 
 				totalelectricenergy, totalelectricenergyfullmeasurement, totalelectricenergysolvismeasurement, totalheatingenergy,
 				heatpumpthermalpowerenergy, heatpumpresistanceheatingenergy, outsidetemperatureavg, flowtemperaturecircuit1avg 
-			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionYearly"`)
+			FROM aggregation."vHeatPumpEnergyUsagesAndProvisionYearly"
+			ORDER BY logdate ASC`)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
 		println(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))

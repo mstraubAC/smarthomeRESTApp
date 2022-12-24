@@ -50,7 +50,9 @@ func (h *handler) getElectricEnergyFlowDaily(c *gin.Context) {
 			,electricItConsumeValue AS electricitconsumevalue
 			,electricWallboxConsumeValue AS electricwallboxconsumevalue
 		FROM aggregation."vElectricEnergyFlowsDaily"  
-		WHERE logdate >= $1 AND logdate <= $2
+		WHERE 
+			logdate >= $1 
+			AND logdate <= $2
 		ORDER BY logdate ASC`, params.StartDate, params.EndDate)
 	if err != nil {
 		h.Logger.Error(fmt.Sprintf("Failed to fetch reqested data from database: %v", err))
