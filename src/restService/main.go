@@ -44,11 +44,6 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// register routes
-	router.GET("/", func(c *gin.Context) {
-		c.IndentedJSON(200, config)
-	})
-
 	// v1 API
 	locations.RegisterRoutes(router.Group("/v1"), &config, logger, &databaseAccessor)
 	aggregates.RegisterRoutes(router.Group("/v1"), &config, logger, &databaseAccessor)
