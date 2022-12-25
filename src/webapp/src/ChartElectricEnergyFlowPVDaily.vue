@@ -130,7 +130,7 @@ export default {
         rawData.forEach(element => {
             // console.log(element);
             var logdate = new Date(Date.parse(element.logdate));
-            var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0') + "-" + String(logdate.getDay()+1).padStart(2, '0');
+            var logdateStr = logdate.getFullYear() + "-" + String(logdate.getMonth()+1).padStart(2, '0') + "-" + String(logdate.getDate()+1).padStart(2, '0');
             this.chartData.labels.push(logdateStr);
             this.chartData.datasets[0].data.push(element.pvGeneration);
             this.chartData.datasets[1].data.push(element.electricGridFeedIn);
