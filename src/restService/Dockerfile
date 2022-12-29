@@ -17,6 +17,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o restService -ldflags="-w -
 FROM scratch
 WORKDIR /
 COPY --from=build /app/restService /restService
+COPY docker/passwd /etc/passwd
+COPY docker/group /etc/group
 
 EXPOSE 7777
 ENTRYPOINT [ "/restService" ]
