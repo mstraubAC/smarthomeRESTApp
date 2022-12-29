@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -16,7 +17,6 @@ import (
 func main() {
 	// logger
 	logger, _ := zap.NewDevelopment()
-	logger.Debug("Test")
 
 	// configuration
 	config, err := configuration.LoadConfig(*logger)
@@ -25,7 +25,9 @@ func main() {
 		logger.Fatal("Terminating")
 		return
 	}
-	logger.Debug(config.RestListener)
+	logger.Debug("Configuration")
+	logger.Debug(fmt.Sprintf(" - Listening on: %s", config.RestListener))
+	logger.Debug(fmt.Sprintf(" - Db conn string: %.20s", config.DBUrl))
 
 	// setup database
 	databaseAccessor := accessors.DatabaseAccessor{Config: &config, Logger: logger}
